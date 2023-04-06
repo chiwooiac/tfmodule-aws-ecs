@@ -17,7 +17,7 @@ resource "aws_ecs_cluster" "this" {
 }
 
 resource "aws_ecs_cluster_capacity_providers" "this" {
-  cluster_name       = aws_ecs_cluster.this.name
+  cluster_name       = concat(aws_ecs_cluster.this.*.name, [""])[0]
   capacity_providers = var.capacity_providers
 
   dynamic "default_capacity_provider_strategy" {
@@ -30,5 +30,5 @@ resource "aws_ecs_cluster_capacity_providers" "this" {
     }
   }
 
-  depends_on         = [aws_ecs_cluster.this]
+  depends_on = [aws_ecs_cluster.this]
 }
